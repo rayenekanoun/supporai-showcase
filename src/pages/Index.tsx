@@ -1,16 +1,38 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { DemoPicker } from "@/components/demo/DemoPicker";
+import { CustomerViewDemo } from "@/components/demo/CustomerViewDemo";
+import { AgentExperienceDemo } from "@/components/demo/AgentExperienceDemo";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+type View = "picker" | "customer" | "agent";
+
+const Index = () => {
+  const [view, setView] = useState<View>("picker");
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-surface-sunken">
+      <AnimatePresence mode="wait">
+        {view === "picker" && (
+          <DemoPicker
+            key="picker"
+            onSelectDemo={(demo) => setView(demo)}
+          />
+        )}
+        {view === "customer" && (
+          <CustomerViewDemo
+            key="customer"
+            onBack={() => setView("picker")}
+          />
+        )}
+        {view === "agent" && (
+          <AgentExperienceDemo
+            key="agent"
+            onBack={() => setView("picker")}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
