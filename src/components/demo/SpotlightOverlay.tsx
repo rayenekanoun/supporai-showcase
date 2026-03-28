@@ -26,11 +26,15 @@ export function SpotlightOverlay({ steps, currentStep, onNext, onBack, onClose, 
   const isLast = currentStep === steps.length - 1;
   const isFirst = currentStep === 0;
 
-  // Position tooltip near target
+  // Position tooltip near target — flip to top if not enough space below
+  const tooltipHeight = 180;
+  const spaceBelow = rect ? window.innerHeight - rect.bottom - 12 : 0;
+  const placeAbove = rect ? spaceBelow < tooltipHeight && rect.top > tooltipHeight + 12 : false;
+
   const tooltipStyle: React.CSSProperties = rect
     ? {
         position: "fixed",
-        top: rect.bottom + 12,
+        top: placeAbove ? rect.top - tooltipHeight - 12 : rect.bottom + 12,
         left: Math.max(16, Math.min(rect.left, window.innerWidth - 380)),
         zIndex: 10001,
       }
